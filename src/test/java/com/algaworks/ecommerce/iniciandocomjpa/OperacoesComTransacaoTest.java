@@ -10,6 +10,21 @@ import java.math.BigDecimal;
 public class OperacoesComTransacaoTest extends EntityManagerTest {
 
     @Test
+    public void impedirOperacaoComBancoDeDados() {
+        Produto produto = entityManager.find(Produto.class, 1);
+        entityManager.detach(produto);// !!
+
+        entityManager.getTransaction().begin();
+        produto.setNome("Kindle Paperwhite 2ª Geração");
+        entityManager.getTransaction().commit();
+
+        entityManager.clear();
+
+        Produto produtoVerificacao = entityManager.find(Produto.class, produto.getId());
+        Assertions.assertEquals("Kindle", produtoVerificacao.getNome());
+    }
+
+    @Test
     public void mostrarDifencaPersistMerge() {
         Produto produtoPersist = new Produto();
 
@@ -19,7 +34,7 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
         produtoPersist.setPreco(new BigDecimal(2000));
 
         entityManager.getTransaction().begin();
-        entityManager.persist(produtoPersist); //produtoPersist é adicionado ao controle do entityManager
+        entityManager.persist(produtoPersist);
         produtoPersist.setNome("Smartphone Two Plus");
         entityManager.getTransaction().commit();
 
@@ -38,7 +53,7 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
         produtoMerge.setPreco(new BigDecimal(2000));
 
         entityManager.getTransaction().begin();
-        produtoMerge = entityManager.merge(produtoMerge); //produtoMerge é clonado e esse clone é adicionado ao controle do entityManager
+        produtoMerge = entityManager.merge(produtoMerge);
         produtoMerge.setNome("Notebook Dell 2");
         entityManager.getTransaction().commit();
 
