@@ -44,7 +44,6 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
         Assertions.assertNotNull(produtoVerificacaoPersist);
 
 
-
         Produto produtoMerge = new Produto();
 
         produtoMerge.setId(6);
