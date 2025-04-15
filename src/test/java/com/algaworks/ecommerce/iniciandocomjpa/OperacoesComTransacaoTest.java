@@ -12,7 +12,7 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
     @Test
     public void removerObjeto() {
 //        Produto produto = entityManager.find(Produto.class, 3);
-        Produto produto = entityManager.getReference(Produto.class, 3);
+        Produto produto = entityManager.getReference(Produto.class, 3); // com getReference o remove não faz select
 
         entityManager.getTransaction().begin();
         entityManager.remove(produto);
